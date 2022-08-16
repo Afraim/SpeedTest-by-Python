@@ -1,44 +1,51 @@
 import os
 import time
-from logging import exception
-from traceback import print_tb
-from unittest import expectedFailure
+# from logging import exception
+# from traceback import print_tb
+# from unittest import expectedFailure
 import speedtest
+def tryAgain(C):
+    if C=="1":
+        main()
+    else :
+        exit(0)
+    
+
 
 def testing():
-    test = speedtest.Speedtest()
+    try:
+        test = speedtest.Speedtest()
+    except:
+        print("Timeout! can not connect")
+        tryAgain(input("Press 1 to try agian and any key to exit: "))
 
     try:
         print("Loading Servers...")
         test.get_servers()
     except:
         print("No server found check internet connection")
-        os.system("pause")
-        exit(1)
+        tryAgain(input("Press 1 to try agian and any key to exit: "))
 
     try:
         print("Loading Best Server...")
         best = test.get_best_server()
     except:
         print("Best server not found please retry after some time")
-        os.system("pause")
-        exit(1)
+        tryAgain(input("Press 1 to try agian and any key to exit: "))
 
     try:
         print("Performing Test...")
         download_result = test.download()
     except:
         print("Download Speed not found")
-        os.system("pause")
-        exit(1)
+        tryAgain(input("Press 1 to try agian and any key to exit: "))
 
     try:
         print("Performing Test...")
         upload_result = test.upload()
     except:
         print("Upload speed not found")
-        os.system("pause")
-        exit(1)
+        tryAgain(input("Press 1 to try agian and any key to exit: "))
     print("\t..........Afraim's Internet Speed Tester..........")
     print("...Success...")
     time.sleep(0.5)
@@ -51,18 +58,14 @@ def testing():
 
 
     os.system("pause")
-    choice = input("1) Check again, 0) Exit\n:")
-
-    if choice=="1":
-        os.system("cls")
-        main()
-    elif choice == "2":
-        exit(0)
+    
+    tryAgain(input("Press 1 to try agian and any key to exit: "))
     
 
 
 
 def main():
+    os.system("cls")
     print("\t..........Afraim's Internet Speed Tester..........")
     testing()
 
